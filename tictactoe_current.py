@@ -192,15 +192,15 @@ class Application(Tk):
             coordinate = int(k[-1])
             rows[int(coordinate/self.dimension)].append(v['owner'])
             columns[int(coordinate % self.dimension)].append(v['owner'])
-            if coordinate in [2, 4, 6]:
+            if coordinate in [(x+1)*(self.dimension-1) for x in range(self.dimension)]:
                 diags[0].append(v['owner'])
-            if coordinate in [0, 4, 8]:
+            if coordinate in [x*(self.dimension+1) for x in range(self.dimension)]:
                 diags[1].append(v['owner'])
         return rows+columns+diags
 
     def assess_win(self, board_state):
         for path in self.win_paths(board_state):
-            if len(list(set(path))) == 1 and '' not in path:  # path is occupied by the same 3 symbols
+            if len(set(path)) == 1 and '' not in path:  # path is occupied by the same 3 symbols
                 return True, path[0]
         return False, ''
 
